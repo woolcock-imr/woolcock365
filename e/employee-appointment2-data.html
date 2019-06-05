@@ -35,7 +35,8 @@
             fields+=",Uniform Required|Uniform_x0020_Required";
             fields+=",Swipe Card|Swipe_x0020_Card,Desk,Computer,Lab Access|Lab_x0020_Access,Patient Contact|Patient_x0020_Contact,Assigned_Unikey|Assigned_x0020_Unikey,Unikey";
             fields+=",Laundry Allowance Date|Laundry_x0020_Allowance_x0020_Da";
-            fields+=",HR Admin|HR_x0020_Admin,Status,Notes";
+            fields+=",HR Admin|HR_x0020_Admin,Status";
+            //fields+=",Notes";
             fields+=",Sign off status|Sign_x002d_off_x0020_status";
         
             
@@ -49,6 +50,7 @@
                     var fs=res.value[i].fields;
                     var Data={}
                     var f_ids=fields.split(',')
+                    f_ids.push("Notes");
                     for(k in f_ids){
                         var id=f_ids[k].split('|').pop();
                         Data[id]=fs[id];
