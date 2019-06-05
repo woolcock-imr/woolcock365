@@ -19,7 +19,7 @@
     </body>
     <script boot-up>
         //------------------------------------
-        $vm={};$vm.ver=[0.19,0.19]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
+        $vm={};$vm.ver=[0.20,0.20]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
         //$vm.debug=1;
         //------------------------------------
         //setup modules location
@@ -27,9 +27,7 @@
         $vm.hosting_path=$vm.hosting_path0.substring(0, $vm.hosting_path0.split('?')[0].lastIndexOf('/'));
         
         //$vm.hosting_path=window.location.href.substring(0, window.location.href.split('?')[0].lastIndexOf('/'));
-        if(window.location.href.substring(0,5)=="file:") $vm.hosting_path="https://app-templates.vmiis.com/e/enquiry";
         if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost') $vm.localhost=true;
-        $vm.m_path='https://modules.vmiis.com'; if($vm.localhost==true) $vm.m_path='http://'+window.location.hostname+':8000/vmiis/modules'; 
         //------------------------------------
         //where are your start modules
         $vm.start_modules=[
@@ -55,40 +53,20 @@
             "sharepoint-list-column":   {url:"$H/s/sharepoint-list-column.html"},
             "sharepoint-list-item":     {url:"$H/s/sharepoint-list-item.html"},
             
-            "participant-data":   	    {url:"$H/p/participant-data.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Participants/items", form_module:"participant-form"},
-            "participant-form":   	    {url:"$H/p/participant-form.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Participants/items"},
-
             "employee-appointment-data":   	    {url:"$H/e/employee-appointment-data.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items", form_module:"employee-appointment-form"},
             "employee-appointment-form":   	    {url:"$H/e/employee-appointment-form.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items"},
             
             "employee-appointment2-data":       {url:"$H/e/employee-appointment2-data.html",Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items", form_module:"employee-appointment2-form"},
             "employee-appointment2-form":       {url:"$H/e/employee-appointment2-form.html",Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items"},
-
-
-            //?expand=fields
-
-            //"sharepoint-site-content-list":     {url:"$H/s/sharepoint-site-content-list.html"},
-            
-            /*
-            "vm365-panel":                  {url:"$M/v/vm365-home.html"},
-            "vm365-entity-data":   	        {url:"$M/v/vm365-entity-data.html",Table:"EntityDefinitions",form_module:"vm365-entity-form"},
-            "vm365-entity-form":   	        {url:"$M/v/vm365-entity-form.html",Table:"EntityDefinitions"},
-            "vm365-table1-data":   	        {url:"$M/v/vm365-table1-data.html",Table:"new_table1s",form_module:"vm365-table1-form"},
-            "vm365-table1-form":   	        {url:"$M/v/vm365-table1-form.html",Table:"new_table1s"},
-            "vm365-sharepoint-list-data":   {url:"$M/v/vm365-sharepoint-list-data.html",Table:"",form_module:"vm365-table1-form"},
-            */
-            "about-vmiis":    			            {url:"$M/a/about-vmiis.html",router:1},
-
         };
         for(p in $vm.module_list) $vm.module_list[p].url=$vm.module_list[p].url.replace('$H',$vm.hosting_path);
-        for(p in $vm.module_list) $vm.module_list[p].url=$vm.module_list[p].url.replace('$M',$vm.m_path);
         //------------------------------------
         //all other modules, used on demand 
         $vm.app_modules=[
             //you can add a js file that will add mmodules to the $vm.module_list
             //"$M/module-list.js",
         ]
-        for(i in $vm.app_modules) $vm.app_modules[i]=$vm.app_modules[i].replace('$M',$vm.m_path);
+        //for(i in $vm.app_modules) $vm.app_modules[i]=$vm.app_modules[i].replace('$M',$vm.m_path);
         //------------------------------------
         //called by framework
         $vm.start=function(){
@@ -152,8 +130,15 @@
             };
             //------------------------------------
             if($vm.m365_msal.getAccount()!=undefined){
-                $vm.m365_user_name=$vm.m365_msal.getAccount().userName;   
+                $vm.m365_msal.acquireTokenSilent($vm.m365_scope).then(function (tokenResponse) {
+                    console.log(tokenResponse)
+                    $vm.m365_user_name=$vm.user_name=$vm.m365_msal.getAccount().userName;   
+                    if($vm.show_user!=undefined) $vm.show_user();     
+                }).catch(function (error){
+                    console.log("more than 1 hour.");
+                });
             }
+            //------------------------------------
         }
         $vm.m365_init();
         //-------------------------------------
