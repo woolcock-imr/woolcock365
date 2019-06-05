@@ -603,7 +603,7 @@
                         <div id=attachments__ID>
 
                         </div> 
-                        <input type=file multiple />
+                        <input type=file id=file__ID multiple />
                     </div>
                 </div>
                 
@@ -652,10 +652,12 @@
                 if(m.input.record!=undefined) id=m.input.record["_id"];
                 m.endpoint_a=m.Table;
                 m.endpoint_u=m.Table+"/"+id+"/fields";
-                //m.attachment(id); 
+                m.get_attachment(id); 
             })
             //-------------------------------------
+            m.total_file_num=0;
             m.before_submit=function(data,index){
+                
                 m.date_field(data,"Date_x0020_of_x0020_Birth");
                 m.date_field(data,"Contract_x0020_Start_x0020_Date");
                 m.date_field(data,"Contract_x0020_End_x0020_Date");
@@ -675,19 +677,25 @@
                 return true;
             }
             //-------------------------------------
-            m.attachment=function(id){
+            m.arrayBufferToBase64=function(buffer) {
+                var binary = '';
+                var bytes = new Uint8Array(buffer);
+                var len = bytes.byteLength;
+                for (var i = 0; i < len; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return btoa(binary);
+            }
+            //-------------------------------------
+            m.get_attachment=function(id){
                 //alert(id);
-                
-                $vm.m365_scope2={
-                    scopes: ["https://woolcockmed.sharepoint.com/.default"]
-                };
-                $vm.m365_msal.acquireTokenSilent($vm.m365_scope2).then(function (tokenResponse) {
-                    var endpoint="https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment')/items(9)/AttachmentFiles"
+                $vm.m365_msal.acquireTokenSilent($vm.m365_scope_sharepoint).then(function (tokenResponse) {
+                    var endpoint=m.v1_endpoint+"/items("+id+")/AttachmentFiles"
                     var xmlHttp = new XMLHttpRequest();
                     xmlHttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200){
                             var data=JSON.parse(this.responseText);  
-                            m.attachment_render(data)
+                            m.get_attachment_render(data)
                         }
                     }
                     xmlHttp.open("GET", endpoint, true); // true for asynchronous
@@ -700,17 +708,86 @@
                 })
             }
             //-------------------------------------
-            m.attachment_render=function(data){
+            m.get_attachment_render=function(data){
                 console.log(data);
                 var txt="";
                 for(var i in data.value){
                     var a=data.value[i];
                     var name=a.FileName;
-                    var url="https://woolcockmed.sharepoint.com/"+a.ServerRelativePath.DecodedUrl+"?web=1";
+                    var url=$vm.m365_sharepoint_uri+"/"+a.ServerRelativePath.DecodedUrl+"?web=1";
                     txt+="<a target=_blank href='"+url+"'>"+name+"</a><br>"
                 }
                 $('#attachments__ID').html(txt);
             }
+            //-------------------------------------
+            m.upload_a_file=function(file,id){
+alert(id);
+                var reader = new FileReader();
+                reader.onload=function (e) {
+                    var buffer=e.target.result;
+                    //var str=m.arrayBufferToBase64(buffer);
+                    //console.log(str);
+                    $vm.m365_msal.acquireTokenSilent($vm.m365_scope_sharepoint).then(function (tokenResponse) {
+                        var endpoint=m.v1_endpoint+"/items("+id+")/AttachmentFiles/add(FileName='" + file.name + "')";
+                        var xmlHttp = new XMLHttpRequest();
+                        xmlHttp.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200){
+                                var data=JSON.parse(this.responseText);  
+                                console.log(data);
+                                alert("OK");
+                                m.upload_a_file_end();
+                            }
+                            else if (this.readyState == 4 && (this.status == 400 || this.status == 500)) {
+                                var res=JSON.parse(this.responseText); 
+                                $vm.alert(res.error.message);
+                            }
+                        }
+                        xmlHttp.open("POST", endpoint, true); // true for asynchronous
+                        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
+                        xmlHttp.setRequestHeader("Accept", "application/json");  
+                        //xmlHttp.setRequestHeader("content-length", buffer.byteLength);  
+                        //xmlHttp.setRequestHeader("Content-Type", "application/json");  
+                        xmlHttp.setRequestHeader("OData-MaxVersion", "4.0");  
+                        xmlHttp.setRequestHeader("OData-Version", "4.0");  
+                        xmlHttp.send(buffer);
+                    })
+                }
+                reader.readAsArrayBuffer(file);
+            }
+            //-------------------------------------
+            m.upload_a_file_end=function(){
+                m.total_file_num--;
+                if(m.total_file_num==0){
+                    alert("End");
+                    $vm.refresh=1;
+                    var rid=undefined; if(m.input.record!=undefined) rid=m.input.record._id;
+                    if(m.input.goback!=undefined) window.history.go(-1);            //from grid
+                    else if(rid!=undefined) window.history.go(-1);                  //modify
+                    else $vm.alert('Your data has been successfully submitted');    //standalone
+                }
+            }
+            //-------------------------------------
+            m.put_attachment_process=function(data,res){
+                var id=res.id;
+                var files = document.getElementById("file__ID").files;
+                m.total_file_num=files.length;
+                if(m.total_file_num!=0){
+                    for(var i=0;i<files.length;i++){
+                        var file=files[i];
+                        m.upload_a_file(file,id);
+                    }
+                }
+                else{
+                    $vm.refresh=1;
+                    var rid=undefined; if(m.input.record!=undefined) rid=m.input.record._id;
+                    if(m.input.goback!=undefined) window.history.go(-1);            //from grid
+                    else if(rid!=undefined) window.history.go(-1);                  //modify
+                    else $vm.alert('Your data has been successfully submitted');    //standalone
+                }
+            }
+            //-------------------------------------
+            m.after_insert=function(data,res){m.put_attachment_process(data,res);}
+            m.after_update=function(data,res){m.put_attachment_process(data,res);}
             //-------------------------------------
         }
     </script>
