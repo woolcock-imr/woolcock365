@@ -1,6 +1,47 @@
 <div id=D__ID>
     <div>
-        VmInclude:__COMPONENT__/g/grid.01.html
+        <section>
+            <div id=toolbar__ID class="navbar navbar-default">
+                    <div id=row_1__ID>
+                            <button id=info__ID type=button class='btn btn-secondary' title='Add new' style='display:none'><i class="fa fa-info"></i></button>
+                            <button id=new__ID  type=button class='btn btn-secondary' title='Add new'><i class="fa fa-plus"></i></button>
+                            <button id=query__ID type=button class="btn btn-secondary" title='Refresh'><i class="fas fa-redo-alt"></i></button>
+                    </div>
+            </div>
+            <div id=table__ID>
+                <table id=grid__ID></table>
+            </div>
+        </section>
+        <style>
+            #toolbar__ID{
+                background-color:#ccc;
+                padding:5px 10px;
+                margin-bottom:0px;
+                overflow:hidden
+            }
+            #toolbar__ID *{
+                margin-right:3px;
+            }
+            #keyword__ID{
+                width: 150px; 
+                display:inline-block;
+            }
+            @media screen and (max-width:768px){
+                #toolbar__ID{
+                    padding: 3px 0;
+                }
+                #toolbar__ID div{
+                    padding-left:3px;
+                }
+                #row_1__ID{
+                    padding-bottom: 3px;
+                    width:100%;
+                }
+                #keyword__ID{
+                    width:auto;
+                }
+            }
+        </style>
     </div>
     <script>
         function F__ID(){
@@ -10,47 +51,62 @@
             var fields="Contract_Type|Contract_x0020_Type,Employee Code|Employee_x0020_Code,Salutation,First Name|First_x0020_Name,Surname";
             fields+=",Address,Gender,Date_of_Birth|Date_x0020_of_x0020_Birth,Email Address|Email_x0020_Address";
             fields+=",Phone Home|Phone_x0020_Home,Mobile";
-            fields+=",Primary Department|Primary_x0020_Department";
-
-            fields+=",Funding Grantor/Institute|Funding_x0020_Grantor_x002f_Inst";
-
-            fields+=",Project Code/Institute|Project_x0020_Code";
-            fields+=",Employee Position Title|Employee_x0020_Position_x0020_Ti";
-            fields+=",Reporting To|Reporting_x0020_To";
-            fields+=",Manager Name|Manager_x0020_Name_x0020_";
-            fields+=",Contract Start Date|Contract_x0020_Start_x0020_Date";
-            fields+=",Contract End Date|Contract_x0020_End_x0020_Date";
+            
+            fields+=",HR Admin|HR_x0020_Admin,Status";
+            fields+=",Sign off status|Sign_x002d_off_x0020_status";
+            
             fields+=",Employment Status|Employment_x0020_Status";
             
-            fields+=",Usual Days|Usual_x0020_Days";
-            fields+=",Award Type|Award_x0020_Type";
-            fields+=",Award Classification|Award_x0020_Classification";
-            
-            fields+=",Salary";
-            fields+=",Child Check|Child_x0020_Check";
-            fields+=",Children Check Numbe|Children_x0020_Check_x0020_Numbe";
-            fields+=",Police Check|Police_x0020_Check";
-            fields+=",Police Ref Number|Police_x0020_Ref_x0020_Number";
-            
-            fields+=",Uniform Required|Uniform_x0020_Required";
-            fields+=",Swipe Card|Swipe_x0020_Card,Desk,Computer,Lab Access|Lab_x0020_Access,Patient Contact|Patient_x0020_Contact,Assigned_Unikey|Assigned_x0020_Unikey,Unikey";
-            fields+=",Laundry Allowance Date|Laundry_x0020_Allowance_x0020_Da";
-            fields+=",HR Admin|HR_x0020_Admin,Status";
-            //fields+=",Notes";
-            fields+=",Sign off status|Sign_x002d_off_x0020_status";
-        
-            
 
+            var fields_hide="Notes";
+            fields_hide+=",Award Type|Award_x0020_Type";
+            fields_hide+=",Award Classification|Award_x0020_Classification";
+            fields_hide+=",Primary Department|Primary_x0020_Department";
+
+            fields_hide+=",Funding Grantor/Institute|Funding_x0020_Grantor_x002f_Inst";
+
+            fields_hide+=",Project Code/Institute|Project_x0020_Code";
+            fields_hide+=",Employee Position Title|Employee_x0020_Position_x0020_Ti";
+            fields_hide+=",Reporting To|Reporting_x0020_To";
+            fields_hide+=",Manager Name|Manager_x0020_Name_x0020_";
+            fields_hide+=",Contract Start Date|Contract_x0020_Start_x0020_Date";
+            fields_hide+=",Contract End Date|Contract_x0020_End_x0020_Date";
+            
+            fields_hide+=",Salary";
+            fields_hide+=",Child Check|Child_x0020_Check";
+            fields_hide+=",Children Check Numbe|Children_x0020_Check_x0020_Numbe";
+            fields_hide+=",Police Check|Police_x0020_Check";
+            fields_hide+=",Police Ref Number|Police_x0020_Ref_x0020_Number";
+            fields_hide+=",Usual Days|Usual_x0020_Days";
+            fields_hide+=",Monday Start Time|MondayStartTime";
+            fields_hide+=",Monday Finish Time|MondayFinishTime";
+            fields_hide+=",Tuesday Start Time|TuesdayStartTime";
+            fields_hide+=",Tuesday Finish Time|TuesdayFinishTime";
+            fields_hide+=",Wednesday Start Time|WednesdayStartTime";
+            fields_hide+=",Wednesday Finish Time|WednesdayFinishTime";
+            fields_hide+=",Thursday Start Time|ThursdayStartTime";
+            fields_hide+=",Thursday Finish Time|ThursdayFinishTime";
+            fields_hide+=",Friday Start Time|FridayStartTime";
+            fields_hide+=",Friday Finish Time|FridayFinishTime";
+            fields_hide+=",Saturday Start Time|SaturdayStartTime";
+            fields_hide+=",Saturday Finish Time|SaturdayFinishTime";
+            fields_hide+=",Sunday Start Time|SundayStartTime";
+            fields_hide+=",Sunday Finish Time|SundayFinishTime";
+            fields_hide+=",Uniform Required|Uniform_x0020_Required";
+            fields_hide+=",Swipe Card|Swipe_x0020_Card,Desk,Computer,Lab Access|Lab_x0020_Access,Patient Contact|Patient_x0020_Contact,Assigned_Unikey|Assigned_x0020_Unikey,Unikey";
+            fields_hide+=",Laundry Allowance Date|Laundry_x0020_Allowance_x0020_Da";
             
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
+
+
             //-------------------------------------
             m.data_process=function(res){
                 m.records=[];
                 for(var i=0;i<res.value.length;i++){
                     var fs=res.value[i].fields;
                     var Data={}
-                    var f_ids=fields.split(',')
-                    f_ids.push("Notes");
+                    var f_ids=(fields+","+fields_hide).split(',')
+                    //f_ids.push("Notes");
                     for(k in f_ids){
                         var id=f_ids[k].split('|').pop();
                         Data[id]=fs[id];
@@ -61,9 +117,6 @@
                         "Submitted_by":res.value[i].createdBy.user.displayName,
                         Data:Data
                     })
-                    
-                    //var d=m.records[i].Data['Date_x0020_of_x0020_Birth'];
-                    //if(d!="") m.records[i].Data['Date_x0020_of_x0020_Birth']=$vm.date_to_string_yyyymmdd(new Date( m.records[i].Data['Date_x0020_of_x0020_Birth']));
                     m.date_field(m.records[i].Data,'Date_x0020_of_x0020_Birth');
                     m.date_field(m.records[i].Data,'Contract_x0020_Start_x0020_Date');
                     m.date_field(m.records[i].Data,'Contract_x0020_End_x0020_Date');
@@ -72,14 +125,6 @@
                     m.string_array_field(m.records[i].Data,'Primary_x0020_Department');
                     m.string_array_field(m.records[i].Data,'Usual_x0020_Days');
                     m.string_array_field(m.records[i].Data,'Award_x0020_Type');
-                    
-                    /*
-                    d=m.records[i].Data['Primary_x0020_Department'];
-                    for(k in d){
-                        var a=d[k];
-                        m.records[i].Data[a.replace(/ /g,'_')]='on';
-                    }
-                    */
                     console.log(m.records[i].Data)
                 }
             }
@@ -89,45 +134,6 @@
                 m.endpoint_d=m.Table;
             }
             //-------------------------------------
-            /*
-            $vm.m365_scope2={
-                scopes: ["https://woolcockmed.sharepoint.com/.default"]
-            };
-
-            m.request_data=function(){
-                $vm.m365_msal.acquireTokenSilent($vm.m365_scope2).then(function (tokenResponse) {
-                    //m.endpointB="https://woolcockmed.sharepoint.com/_api/web/lists?$top=30"
-                    m.endpointB="https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment')/items(9)/AttachmentFiles"
-                    //m.endpointB="https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Attachments')/items"
-
-
-                    //alert(token)
-                    
-                    var mt1=new Date().getTime();
-                    var xmlHttp = new XMLHttpRequest();
-                    xmlHttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200){
-                            //callback(JSON.parse(this.responseText));
-                            var data=JSON.parse(this.responseText);  
-                            var mt2=new Date().getTime();
-                            var tt_all=mt2-mt1;
-                            $("#elapsed__ID").html( (this.response.length/1000).toFixed(1)+"kb/"+tt_all.toString()+"ms");
-                            if(m.data_process!=undefined) m.data_process(data.value);
-                            m.render();
-                        }
-                    }
-                    xmlHttp.open("GET", m.endpointB, true); // true for asynchronous
-                    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
-                    xmlHttp.setRequestHeader("Accept", "application/json");  
-                    xmlHttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
-                    xmlHttp.setRequestHeader("OData-MaxVersion", "4.0");  
-                    xmlHttp.setRequestHeader("OData-Version", "4.0");  
-                    xmlHttp.send();
-                })
-            }
-            */
-            //-------------------------------------
-            
         }
     </script>
     <style>

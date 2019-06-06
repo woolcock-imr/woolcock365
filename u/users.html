@@ -6,7 +6,7 @@
 		function F__ID(){
 			var D="";
 			$('#D__ID').on('load',function(){
-				$vm.m365_graph("https://graph.microsoft.com/v1.0/users?$select=displayName,mail",function(data){
+				$vm.m365_graph("https://graph.microsoft.com/v1.0/users",function(data){
 					D=data;
 					$('#info__ID').html('');
 					var txt="<table>";

@@ -19,7 +19,7 @@
     </body>
     <script boot-up>
         //------------------------------------
-        $vm={};$vm.ver=[0.20,0.20]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
+        $vm={};$vm.ver=[0.21,0.21]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
         //$vm.debug=1;
         //------------------------------------
         //setup modules location
@@ -38,24 +38,27 @@
         //modules used immediately
         $vm.module_list={
             //you can add modules here directly
-            "home":	        {url:"$H/0/home.html",router:1},
-            "frame":	    {url:"$H/0/frame.html",sys:1},
-            "app":	        {url:"$H/0/app.html"},
-            "header":	    {url:"$H/0/header.html"},
-            "footer":	    {url:"$H/0/footer.html"},
-            "control-panel-main":            {url:"$H/c/control-panel-main.html",router:1},
-            "control-panel-site":            {url:"$H/c/control-panel-site.html",router:1},
-            "me":   	                {url:"$H/m/me.html"},
-            "users":   	                {url:"$H/u/users.html"},
-            "groups":   	            {url:"$H/g/groups.html"},
+            "home":	                            {url:"$H/0/home.html",router:1},
+            "frame":	                        {url:"$H/0/frame.html",sys:1},
+            "app":	                            {url:"$H/0/app.html"},
+            "header":	                        {url:"$H/0/header.html"},
+            "footer":	                        {url:"$H/0/footer.html"},
+            "control-panel-main":               {url:"$H/c/control-panel-main.html",router:1},
+            "control-panel-administrator":      {url:"$H/c/control-panel-administrator.html",router:1},
+            "control-panel-site":               {url:"$H/c/control-panel-site.html",router:1},
+            
+            "me":   	                        {url:"$H/m/me.html"},
+            "users":   	                        {url:"$H/u/users.html"},
+            "groups":   	                    {url:"$H/g/groups.html"},
             "sharepoint-site":                  {url:"$H/s/sharepoint-site.html"},
-            "sharepoint-list":   	    {url:"$H/s/sharepoint-list.html"},
-            "sharepoint-list-column":   {url:"$H/s/sharepoint-list-column.html"},
-            "sharepoint-list-item":     {url:"$H/s/sharepoint-list-item.html"},
+            "sharepoint-list":   	            {url:"$H/s/sharepoint-list.html"},
+            "sharepoint-list-column":           {url:"$H/s/sharepoint-list-column.html"},
+            "sharepoint-list-item":             {url:"$H/s/sharepoint-list-item.html"},
             
             "employee-appointment-data":   	    {url:"$H/e/employee-appointment-data.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items", form_module:"employee-appointment-form"},
             "employee-appointment-form":   	    {url:"$H/e/employee-appointment-form.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items"},
             
+            "employee-appointment-r1-data":     {url:"$H/e/employee-appointment-r1-data.html",Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment')", form_module:"employee-appointment2-form"},
             "employee-appointment2-data":       {url:"$H/e/employee-appointment2-data.html",Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items", form_module:"employee-appointment2-form"},
             "employee-appointment2-form":       {url:"$H/e/employee-appointment2-form.html",
                                                     Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items",
@@ -84,11 +87,11 @@
                 scopes: ["https://woolcockmed.sharepoint.com/.default"]
             };
             $vm.m365_scope={
-                scopes: ["user.read","User.ReadBasic.All","Files.Read.All","Sites.ReadWrite.All"/*",group.read.all"*/]
+                scopes: ["user.read","User.Read.All","Files.Read.All","Sites.ReadWrite.All"/*",group.read.all"*/]
             };
             $vm.msalConfig={
                 auth: {
-                    clientId: 'f39f8959-8cd7-4570-8c0f-548306bf899a',
+                    clientId: '3bcb40c5-fec0-4b3b-ba67-f4d46d577f97',  //f39f8959-8cd7-4570-8c0f-548306bf899a
                 },
                 cache: {
                     cacheLocation: "localStorage",
