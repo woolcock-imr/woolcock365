@@ -612,34 +612,14 @@
                     </div>
                 </div>
                 
-                
-                <!--
-
-                <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="Gender" value="Male"> Male
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="Gender" value="Female"> Female
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="Gender" value="Other"> Other
-                        </label>
-                    </div>
-                </div>
-            </div>
-            -->
-
-
                 <!---------------------------------------------------->
                 <!-- submit button part for all tsak forms------------>
                 <br>
-                <div class="row">
+                <hr class=hr__ID>
+                <div class="row" id=completion__ID>
                     <div class=col>
+                        <label><input type="checkbox" value=Completion name=FormStatus /> Completion</label>
+                        <p>Important: Submit with the above completion checked will notify a HR staff to start process this request and you will not be allowed to modify this form again.</p>
                         <button id=asubmit__ID type="submit" class="btn btn-secondary">Submit</button>
                     </div>
                 </div>
@@ -652,13 +632,22 @@
     		//-------------------------------------
             VmInclude:__COMPONENT__/f/form.365.01.js
             //-------------------------------------
-            $('#D__ID').on('load',function(){
+            var old_load=m.load;
+            m.load=function(){
                 var id=-1;
                 if(m.input.record!=undefined) id=m.input.record["_id"];
+                $('#completion__ID').hide();
+                if(id!=-1){
+                    if(m.input.record.Data.FormStatus!='Completion'){
+                        m.input.record.Data.FormStatus="";
+                        $('#completion__ID').show();
+                    }
+                }
+                old_load();
                 m.endpoint_a=m.Table;
                 m.endpoint_u=m.Table+"/"+id+"/fields";
-                m.get_attachment(id); 
-            })
+                m.get_attachment(id);
+            }
             //-------------------------------------
             m.total_file_num=0;
             m.before_submit=function(data,index){

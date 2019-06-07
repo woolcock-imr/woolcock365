@@ -56,6 +56,7 @@
             fields+=",Sign off status|Sign_x002d_off_x0020_status";
             
             fields+=",Employment Status|Employment_x0020_Status";
+            fields+=",Form Status|FormStatus";
             
 
             var fields_hide="Notes";
@@ -97,8 +98,18 @@
             fields_hide+=",Laundry Allowance Date|Laundry_x0020_Allowance_x0020_Da";
             
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
-
-
+            //-------------------------------------
+            m.cell_render=function(records,I,field,td){
+                switch(field){
+                    case 'FormStatus':
+                        td.html("");
+                        if(records[I].Data[field]=='Completion') td.html("Completion");
+                        break;
+                    case '_Delete':
+                        if(records[I].Data['FormStatus']=='Completion') td.html("");
+                        break;
+                }
+            }
             //-------------------------------------
             m.data_process=function(res){
                 m.records=[];
