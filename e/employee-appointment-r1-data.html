@@ -117,7 +117,7 @@
                         callback({});
                     }
                 }
-                xmlHttp.open("GET", m.endpoint, true); // true for asynchronous
+                xmlHttp.open("GET", endpoint, true); // true for asynchronous
                 xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
                 xmlHttp.setRequestHeader("Accept", "application/json");  
                 xmlHttp.send();
