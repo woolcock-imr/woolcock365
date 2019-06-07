@@ -13,43 +13,65 @@
             m.data_process=function(res){
                 m.records=[];
                 for(var i=0;i<res.value.length;i++){
-                    var d=res.value[i].fields.Data;
+                    var d=res.value[i].Data;
                     var jd=JSON.parse(d);
                     //console.log(jd);
-                    
                     var Data={}
                     for(p in jd){
                         Data[p]=jd[p];
                     }
                     m.records.push({
-                        "_id":res.value[i].fields['id'],
-                        "Submit_date":res.value[i].fields['Created'],
-                        "Submitted_by":res.value[i].createdBy.user.displayName,
+                        "_id":res.value[i]['ID'],
+                        "Submit_date":res.value[i]['Created'],
+                        "Submitted_by":res.value[i].Author.FirstName+" "+res.value[i].Author.LastName,
                         Data:Data
                     })
-                    /*
-                    var First_name="";  if(jd.First_name!=undefined) First_name=jd.First_name;
-                    var Last_name="";   if(jd.Last_name!=undefined) Last_name=jd.Last_name;
-                    var Phone="";       if(jd.Phone!=undefined) Phone=jd.Phone;
-
-
-                    m.records.push({
-                        "_id":res.value[i].fields['id'],
-                        "Submit_date":res.value[i].fields['Created'],
-                        "Submitted_by":res.value[i].createdBy.user.displayName,
-                        Data:{
-                            "First_name":First_name,
-                            "Last_name":Last_name,
-                            "Phone":Phone,
-                        }
-                    })
-                    */
                 }
             }
             //-------------------------------------
             m.set_req=function(){
-                m.endpoint  =m.Table+"/?expand=fields";
+                //m.endpoint  =m.Table+"/?expand=fields";
+                m.endpoint  =m.Table+"/items?$expand=Author&$select=*,Author/FirstName,Author/LastName";
+                //m.endpoint  =m.Table+"/items";
                 m.endpoint_d=m.Table;
+            }
+            //-------------------------------------
+            m.request_data=function(){
+                $vm.m365_msal.acquireTokenSilent($vm.m365_scope_sharepoint).then(function (tokenResponse) {
+                    m.ajax(m.endpoint,tokenResponse,function(data){
+                        if(m.data_process!=undefined) m.data_process(data);
+                        m.render();
+                    })
+                }).catch(function (error) {
+                    console.log(error);
+                    $vm.alert("You haven't signed in, or your previous session has expired.")
+                });
+            }
+            //-------------------------------------
+            m.ajax=function(endpoint,tokenResponse,callback){
+                var mt1=new Date().getTime();
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200){
+                        var data=JSON.parse(this.responseText);  
+                        var mt2=new Date().getTime();
+                        var tt_all=mt2-mt1;
+                        console.log((this.response.length/1000).toFixed(1)+"kb/"+tt_all.toString()+"ms");
+                        callback(data);
+                    }
+                    else if(this.readyState == 4 && this.status == 403){
+                        $vm.alert("No permission");
+                        callback({});
+                    }
+                    if(this.status == 404){
+                        $vm.alert(endpoint+", 404 (Not found)");
+                        callback({});
+                    }
+                }
+                xmlHttp.open("GET", endpoint, true); // true for asynchronous
+                xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
+                xmlHttp.setRequestHeader("Accept", "application/json");  
+                xmlHttp.send();
             }
             //-------------------------------------
         }

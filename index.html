@@ -55,8 +55,12 @@
             "sharepoint-list-column":           {url:"$H/s/sharepoint-list-column.html"},
             "sharepoint-list-item":             {url:"$H/s/sharepoint-list-item.html"},
             
-            "employee-appointment-data":   	    {url:"$H/e/employee-appointment-data.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items", form_module:"employee-appointment-form"},
-            "employee-appointment-form":   	    {url:"$H/e/employee-appointment-form.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointments/items"},
+            "employee-appointment-data":   	    {url:"$H/e/employee-appointment-data.html",
+            //Table:"https://graph.microsoft.com/v1.0/sites/HRandEmployment/lists/Employee%20appointment%20Form/items", 
+            //Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items",
+            Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment Form')",
+            form_module:"employee-appointment-form"},
+            "employee-appointment-form":   	    {url:"$H/e/employee-appointment-form.html",Table:"https://graph.microsoft.com/v1.0/sites/root/lists/Employee%20appointment%20Form/items"},
             
             "employee-appointment-r1-data":     {url:"$H/e/employee-appointment-r1-data.html",Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment')", form_module:"employee-appointment2-form"},
             "employee-appointment2-data":       {url:"$H/e/employee-appointment2-data.html",Table:"https://graph.microsoft.com/v1.0/sites/woolcockmed.sharepoint.com,904f3621-bfdc-4154-a36e-e73f3d46c7c0,2367a8ed-18d1-4fea-afe2-c5784ffccfa9/lists/0e9e1d2f-2898-44c1-b3a7-645882b05459/items", form_module:"employee-appointment2-form"},
