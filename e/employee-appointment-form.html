@@ -1,7 +1,7 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-        <div id=header__ID>
-            Employee Appointment Form
+    <section class=form_container__ID>
+        <div class=header__ID>
+            Business Data Collection (Employee Appointment)
         </div>
         <form id=F__ID>
             <div class="container">
@@ -507,141 +507,154 @@
                         </div>
                     </div>
                 </div>
-
-
                 <!---------------------------------------------------->
                 <!-- submit button part for all tsak forms------------>
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Notification Email for next step of work flow 
+                    </div>
+                    <div class=col-md-9>
+                        <input type="email" class=form-control name=Notification_Email />
+                    </div>
+                </div>
                 <br>
+                <hr class=hr__ID>
                 <div class="row">
                     <div class=col>
-                        <button id=asubmit__ID type="submit" class="btn btn-secondary">Submit</button>
+                        <label><input type="checkbox" name=Completed /> Completion</label>
+                        <p>Important: Submit with the above completion checked will trigger the next step of the processing work flow.</p>
+                        <button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
                     </div>
                 </div>
                 <!---------------------------------------------------->
             </div>
         </form>
     </section>
+    <section class=form_container__ID>
+        <div class=header__ID>
+            Business Data Processing 1
+        </div>
+        <form id=FP1__ID>
+            <div class="container">
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Comments 
+                    </div>
+                    <div class=col-md-9>
+                        <textarea name=Comments class=form-control ></textarea> 
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Approving 
+                    </div>
+                    <div class=col-md-9>
+                        <label><input type="checkbox" name=Completed /> I approve this request</label> <span id=approvied__ID></span>
+                        <input id=p1_approvied_by__ID name=approvied_by style="display:none" />
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Notification email for next step of work flow 
+                    </div>
+                    <div class=col-md-9>
+                        <input type="email" class=form-control name=Notification_Email />
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <br>
+                <div class="row">
+                    <div class=col>
+                        Important: 
+                        <ul>
+                            <li>Submit with the approving checked will trigger the next step of the processing work flow.</li>
+                            <li>Submit with some comments and approving unchecked will trigger the previous step of the processing work flow.</li>
+                        </ul>
+                        <button id=submit_p1__ID type="submit" class="btn btn-secondary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    <section class=form_container__ID>
+        <div class=header__ID>
+            Business Data Processing 2
+        </div>
+        <form id=FP2__ID>
+            <div class="container">
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Comments 
+                    </div>
+                    <div class=col-md-9>
+                        <textarea name=Comments class=form-control ></textarea> 
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Approving 
+                    </div>
+                    <div class=col-md-9>
+                        <label><input type="checkbox" name=Completed /> I approve this request</label> <span id=approvied__ID></span>
+                        <input id=p2_approvied_by__ID name=approvied_by style="display:none" />
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <div class="row">
+                    <div class=col-md-3>
+                        Notification email for next step of work flow 
+                    </div>
+                    <div class=col-md-9>
+                        <input type="email" class=form-control name=Notification_Email />
+                    </div>
+                </div>
+                <hr class=hr__ID>
+                <br>
+                <div class="row">
+                    <div class=col>
+                        Important: 
+                        <ul>
+                            <li>Submit with the approving checked will trigger the next step of the processing work flow.</li>
+                            <li>Submit with some comments and approving unchecked will trigger the previous step of the processing work flow.</li>
+                        </ul>
+                        <button id=p2_submit__ID type="submit" class="btn btn-secondary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
     <script>
         function F__ID(){
     		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.365.01.js
+            VmInclude:__COMPONENT__/f/form.365mr.01.js
             m.JSON=1;
+            m.submit=m.submit_r;
             //-------------------------------------
-            $('#D__ID').on('load',function(){
+            var old_load=m.load;
+            m.load=function(){
+                old_load();
                 var id=-1;
                 if(m.input.record!=undefined) id=m.input.record["_id"];
-                m.endpoint_a=m.Table;
-                m.endpoint_u=m.Table+"/"+id+"/fields";
-
-                m.endpoint_a="https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment Form')/items"
-                m.endpoint_u="https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment Form')/items("+id+")";
+                m.endpoint_a=m.Table+"/items"
+                m.endpoint_u=m.Table+"/items("+id+")";
+                
+                var id_p1=-1;
+                if(m.input.record.record_p1!=undefined) id_p1=m.input.record.record_p1["_id"];
+                m.endpoint_p1_a=m.Table1+"/items"
+                m.endpoint_p1_u=m.Table1+"/items("+id_p1+")";
                 m.scope=$vm.m365_scope_sharepoint;
-                m.submit=m.submit_v1;
-
-            })
-            //-------------------------------------
-            m.__submit=function(event){
-                //--------------------------------------------------------
-                event.preventDefault();
-                $('#submit__ID').hide();
-                //--------------------------------------------------------
-                var data={};
-                var data_new=$vm.serialize('#F__ID');
-                if(m.input.record!=undefined){
-                    for(k in m.input.record.Data){
-                        data[k]=m.input.record.Data[k];
-                    }
-                }
-                if(data_new!=undefined){
-                    for(k in data_new){
-                        data[k]=data_new[k];
-                    }
-                }
-                delete data[""];
-                var json=data;
-                if(m.JSON==1) json={Data:JSON.stringify(data)}
-                //var json={JSON:data}
-                //--------------------------------------------------------
-                var r=true;
-                if(m.before_submit!=undefined) r=m.before_submit(data);
-                if(r==false){$('#submit__ID').show(); return;}
-                var rid=undefined; if(m.input.record!=undefined) rid=m.input.record._id;
-                if(rid==undefined){
-                    $vm.m365_msal.acquireTokenSilent(m.scope).then(function (tokenResponse) {
-                        var mt1=new Date().getTime();
-                        var xmlHttp = new XMLHttpRequest();
-                        xmlHttp.onreadystatechange = function () {
-                            if (this.readyState == 4 && this.status == 201){
-                                if(m.after_insert!=undefined){
-                                    var res=JSON.parse(this.responseText);  
-                                    m.after_insert(data,res); return;
-                                }
-                                var mt2=new Date().getTime();
-                                var tt_all=mt2-mt1;
-                                $vm.refresh=1;
-                                if(m.input.goback!=undefined) window.history.go(-1);            //from grid
-                                else $vm.alert('Your data has been successfully submitted');    //standalone
-                            }
-                            else if (this.readyState == 4 && (this.status == 400 || this.status == 500)) {
-                                var res=JSON.parse(this.responseText); 
-                                if(res.error!=undefined) $vm.alert(res.error.message);
-                                else if(res["odata.error"]!=undefined) $vm.alert(res["odata.error"].message.value);
-                            }
-                        }
-                        xmlHttp.open("POST", m.endpoint_a, true); // true for asynchronous
-                        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
-                        xmlHttp.setRequestHeader("Accept", "application/json");  
-                        xmlHttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
-                        var d=JSON.stringify(json);
-                        xmlHttp.send(d);
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                }
-                else if(rid!=undefined){
-                    $vm.m365_msal.acquireTokenSilent(m.scope).then(function (tokenResponse) {
-                        var mt1=new Date().getTime();
-                        var xmlHttp = new XMLHttpRequest();
-                        xmlHttp.onreadystatechange = function () {
-                            if (this.readyState == 4 && this.status == 204){
-                                if(m.after_update!=undefined){
-                                    var res=JSON.parse(this.responseText);  
-                                    m.after_update(data,res); return;
-                                }
-                                //callback(JSON.parse(this.responseText));
-                                //var data=JSON.parse(this.responseText);  
-                                var mt2=new Date().getTime();
-                                var tt_all=mt2-mt1;
-                                $vm.refresh=1;
-                                if(rid!=undefined) window.history.go(-1);     //modify
-                            }
-                            else if (this.readyState == 4 && (this.status == 400 || this.status == 500)) {
-                                var res=JSON.parse(this.responseText); 
-                                $vm.alert(res.error.message);
-                            }
-                        }
-                        xmlHttp.open("PATCH", m.endpoint_u, true); // true for asynchronous
-                        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
-                        xmlHttp.setRequestHeader("Accept", "application/json");  
-                        xmlHttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
-                        xmlHttp.setRequestHeader("IF-MATCH", "*");  
-                        var d=JSON.stringify(json);
-                        xmlHttp.send(d);
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
-                }
             }
-            //--------------------------------------------------------
-
-
-
-
-
+            //-------------------------------------
         }
     </script>
     <style>
-        #form_container__ID{
+        .form_container__ID{
             max-width:1200px;
         }
         VmInclude:__COMPONENT__/f/form.01.css
