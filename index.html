@@ -153,9 +153,13 @@
             //------------------------------------
             if($vm.m365_msal.getAccount()!=undefined){
                 $vm.m365_msal.acquireTokenSilent($vm.m365_scope).then(function (tokenResponse) {
-                    console.log(tokenResponse)
+                    $vm.m365_user_name=$vm.m365_msal.getAccount().userName;
+                    $vm.user_name_3rd=$vm.m365_msal.getAccount().userName;
+                    $vm.issuer_3rd="microsoft";
+                    /*
                     $vm.m365_user_name=$vm.user_name=$vm.m365_msal.getAccount().userName;   
                     if($vm.show_user!=undefined) $vm.show_user();     
+                    */
                 }).catch(function (error){
                     console.log("more than 1 hour.");
                 });

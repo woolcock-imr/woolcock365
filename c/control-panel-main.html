@@ -10,6 +10,18 @@
     </div>
     <script>
         function F__ID(){
+/*
+            $vm.m365_msal.acquireTokenSilent({scopes:["user.read"]}).then(function (tokenResponse) {
+    console.log(tokenResponse.idToken)
+    var token=tokenResponse.idToken.rawIdToken;
+                    console.log(token);
+                    $vm.request({cmd:'verify',issuer:'microsoft',token:token},function(res){
+                        console.log(res);
+                    })
+})
+*/
+
+
             //--------------------------------------------------------
             $vm.module_list["__MODULE__"].show=function(){
                 document.title="Panel | "+$vm.default_title;
