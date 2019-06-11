@@ -54,36 +54,17 @@
             //------------------------------------
             window.onresize=function(){set_layout();}
             //------------------------------------
-            $vm._app_init=function(){
-                $vm.init(function(){
-                    $vm.init_status=1;
-                    $vm.show_user();
-                    if($vm.user_name_3rd!=undefined && $vm.user_name_3rd!=$vm.user_name){
-                        $vm.m365_msal.acquireTokenSilent({scopes:["user.read"]}).then(function (tokenResponse) {
-                            console.log(tokenResponse.idToken)
-                            var token=tokenResponse.idToken.rawIdToken;
-                            $vm.request({cmd:'signin-3rd',issuer:'microsoft',token:token},function(res){
-                                console.log(res);
-                                $vm.user_name=res.user_name;
-                                $vm.set_token(res.token,res.user_name);
-                                //location.reload(true);
-                                $vm.show_user();
-                            })
-                        })
-                    }
-                })
+            $vm.init();
+            $vm.init_status=1;
+            //------------------------------------
+            $vm.app_after_3rd_signin=function(){
+                $vm.user_name=$vm.user_name_3rd;
+                $vm.show_user();
             }
             //------------------------------------
-            $vm.app_init=function(){
-                $vm.init();
-                $vm.init_status=1;
-                $vm.show_user();
-                if($vm.user_name_3rd!=undefined){
-                    $vm.user_name=$vm.user_name_3rd;
-                    $vm.show_user();
-                }
+            if($vm.user_name!=$vm.user_name_3rd && $vm.user_name_3rd!=undefined){
+                $vm.app_after_3rd_signin();
             }
-            $vm.app_init();
             //------------------------------------
             if($vm.first_module!=undefined) $vm.show($vm.first_module);
             //------------------------------------
@@ -103,9 +84,6 @@
             }
             if($vm.demo_scroll!=undefined) $vm.demo_scroll();
         });
-        //-------------------------------------
-        
-
         //-------------------------------------
 
 
@@ -127,5 +105,23 @@
             z-index: -100;
         }
         */
+		.vm_data_loader{
+          display: none;
+		  height: 4px;
+		  width: 100%;
+		  position: relative;
+		  overflow: hidden;
+		  background-color: #ddd;
+		}
+		.vm_data_loader:before{
+		  display: block;
+		  position: absolute;
+		  content: "";
+		  left: -200px;
+		  width: 200px;
+		  height: 4px;
+		  background-color: #2980b9;
+		  animation: loading 2s linear infinite;
+		}
     </style>
 </div>

@@ -8,9 +8,10 @@
                 <li><a href=?/groups>Groups</a></li>
                 <li><a href=?/sharepoint-site>Organization Sites</a></li>
             </ul>
-            <span>Under development</span>
+            <span>Proposals</span>
             <ul>
-                <li><a href=?/employee-appointment-r1-data>Employee appointment</a></li>
+                <li><a href=?/employee-appointment-a-data>Employee appointment (solution 1)</a></li>
+                <span class=notes__ID>Simple solution without business logic in the form.</span>
             </ul>
         </div>
     </div>
@@ -103,11 +104,15 @@
 	        padding:6px 26px 6px 6px;
 	        float:left;
 	    }
-	    .nav__ID span{
+	    .nav__ID > span{
 			color:#283f55;
 			font-weight: bold;
 			margin:3px 10px;
 	    }
+        .notes__ID{
+            font-size: 90%;
+            color:#888;
+        }
     	@media screen and (max-width:768px){
     		#panel__ID{
     			padding:10px 0 0 10px;
