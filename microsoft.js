@@ -16,43 +16,14 @@ $vm.m365_init=function(){
         }
     };
     $vm.m365_msal=new Msal.UserAgentApplication($vm.msalConfig);
-
-    $vm.w_microsoft_token=function(tokenResponse){
-        var token=tokenResponse.idToken.rawIdToken;
-        
-    alert(token)            
-        $vm.api_address="https://rt.woolcock.org.au/op/api.aspx";
-        $vm.request({cmd:'signin',token:token},function(res){
-            console.log(res.token);
-            /*
-            $vm.user_name=res.user_name;
-            $vm.set_token(res.token,res.user_name);
-            $vm.show_user();
-            localStorage.setItem("authentication-issuer","microsoft")
-            $vm.user_name_3rd=$vm.m365_msal.getAccount().userName;
-            $vm.issuer_3rd="microsoft";
-            */
-        })
-    }
-    //------------------------------------
-
     $vm.m365_signin=function (){
         $vm.m365_msal.handleRedirectCallback((error, response) => {
         });
         $vm.m365_msal.loginPopup($vm.m365_scope).then(function (loginResponse){
-console.log(loginResponse)        
-console.log($vm.m365_msal.getAccount())        
             if($vm.m365_msal.getAccount()!=undefined){
-                $vm.m365_msal.acquireTokenSilent($vm.m365_scope).then(function (tokenResponse) {
-                    $vm.w_microsoft_token(tokenResponse);
-                }).catch(function (error){
-                    console.log("more than ? hour.");
-                });
-                /*
                 $vm.user_name_3rd=$vm.m365_msal.getAccount().userName;
                 $vm.issuer_3rd   ="microsoft";
                 if($vm.app_after_3rd_signin!=undefined) $vm.app_after_3rd_signin();
-                */
             }
         }).catch(function (error) {
             console.log(error);
@@ -90,9 +61,7 @@ console.log($vm.m365_msal.getAccount())
     };
     //------------------------------------
     if($vm.m365_msal.getAccount()!=undefined){
-console.log($vm.m365_msal.getAccount())        
         $vm.m365_msal.acquireTokenSilent($vm.m365_scope).then(function (tokenResponse) {
-$vm.w_microsoft_token(tokenResponse);
             $vm.user_name_3rd=$vm.m365_msal.getAccount().userName;
             $vm.issuer_3rd="microsoft";
             if($vm.app_after_3rd_signin!=undefined) $vm.app_after_3rd_signin();
