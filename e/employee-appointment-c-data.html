@@ -91,6 +91,8 @@
             fields_hide+=",Uniform Required|Uniform_x0020_Required";
             fields_hide+=",Swipe Card|Swipe_x0020_Card,Desk,Computer,Lab Access|Lab_x0020_Access,Patient Contact|Patient_x0020_Contact,Assigned_Unikey|Assigned_x0020_Unikey,Unikey";
             fields_hide+=",Laundry Allowance Date|Laundry_x0020_Allowance_x0020_Da";
+            fields_hide+=",MondayUnpaidBreak,TuesdayUnpaidBreak,WednesdayUnpaidBreak,ThursdayUnpaidBreak,FridayUnpaidBreak,SaturdayUnpaidBreak,SundayUnpaidBreak";
+            fields_hide+=",EmploymentOtherStatus";
             //-------------------------------------
             m.set_req=function(){
                 m.endpoint=m.Table+"/items?$expand=Author&$select=*,Author/FirstName,Author/LastName";
