@@ -21,8 +21,13 @@
         <script src="microsoft.js"></script>
     </body>
     <script boot-up>
+    (function () {
+        if($vm.m365_msal!=undefined && $vm.m365_msal.isInIframe()){
+            console.log("MSAL call back.")
+            return;
+        }
         //------------------------------------
-        $vm.ver=[0.29,0.27]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
+        $vm.ver=[0.30,0.27]; //increase ver[0] if any module changed, increase ver[1] if vm.js changed
         //$vm.debug=1;
         //------------------------------------
         //setup modules location
@@ -195,5 +200,6 @@
             })
         },10);
         //---------------------------------------------
+    }());        
     </script>
 </html>

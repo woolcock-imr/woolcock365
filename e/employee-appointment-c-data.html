@@ -147,7 +147,7 @@
                     var mt1=new Date().getTime();
                     var xmlHttp = new XMLHttpRequest();
                     xmlHttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 204){
+                        if (this.readyState == 4 && (this.status == 204 || this.status == 200)){
                             var mt2=new Date().getTime();
                             var tt_all=mt2-mt1;
                             m.request_data();
