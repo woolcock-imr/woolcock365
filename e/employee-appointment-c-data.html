@@ -46,7 +46,7 @@
     <script>
         function F__ID(){
             //-------------------------------------
-            VmInclude:__COMPONENT__/g/grid.365.01.js
+            VmInclude:__COMPONENT__/g/grid.365r.01.js
             //-------------------------------------
             var fields="Contract_Type|Contract_x0020_Type,Employee Code|Employee_x0020_Code,Salutation,First Name|First_x0020_Name,Surname";
             fields+=",Address,Gender,Date_of_Birth|Date_x0020_of_x0020_Birth,Email Address|Email_x0020_Address";
@@ -54,6 +54,7 @@
             fields+=",HR Admin|HR_x0020_Admin,Status";
             fields+=",Sign off status|Sign_x002d_off_x0020_status";
             fields+=",Employment Status|Employment_x0020_Status";
+            fields+=",Form Status|FormStatus";
             m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
             
             var fields_hide="Notes";
@@ -93,6 +94,7 @@
             //-------------------------------------
             m.set_req=function(){
                 m.endpoint=m.Table+"/items?$expand=Author&$select=*,Author/FirstName,Author/LastName";
+                m.endpoint_d=m.Table+"/items";
             }
             //-------------------------------------
             m.data_process=function(res){
@@ -138,6 +140,32 @@
                 });
             }
             //-------------------------------------
+            m.delete=function(rid){
+                $vm.m365_msal.acquireTokenSilent($vm.m365_scope_sharepoint).then(function (tokenResponse) {
+                    var mt1=new Date().getTime();
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 204){
+                            var mt2=new Date().getTime();
+                            var tt_all=mt2-mt1;
+                            m.request_data();
+                        }
+                    }
+                    xmlHttp.open("DELETE", m.endpoint_d+"("+rid+")", true); // true for asynchronous
+                    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + tokenResponse.accessToken);
+                    xmlHttp.setRequestHeader("Accept", "application/json");  
+                    xmlHttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
+                    xmlHttp.setRequestHeader("IF-MATCH", "*");  
+                    xmlHttp.send();
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+
+            };
+            //-------------------------------
+
+
         }
     </script>
     <style>

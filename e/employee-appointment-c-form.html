@@ -116,7 +116,7 @@
                         Phone Number (Mobile):
                     </div>
                     <div class=col-md-9>
-                        <input type="number" class=form-control name=Mobile /> 
+                        <input type="number" class=form-control name=Mobile value=0 /> 
                     </div>
                 </div>
                 <hr class=hr__ID>
@@ -380,7 +380,7 @@
                         Wage (per hour) or Salary (per annum) (Note: if the salary is other than FTE 100% or if casual note does the rate included casual loading or not)
                     </div>
                     <div class=col-md-9>
-                        <input type="number" class=form-control name=Salary step=0.01 /> 
+                        <input type="number" class=form-control name=Salary step=0.01  value=0 /> 
                     </div>
                 </div>
                 
@@ -394,7 +394,7 @@
                         <label><input type="radio" name=Child_x0020_Check value=Yes_Not_Have /> Yes but does not have a current WWCC.</label><br>
                         <label><input type="radio" name=Child_x0020_Check value=No /> No</label><br>
                         The Working with Children Check Number is:<br>
-                        <input type="text" class=form-control name=Children_x0020_Check_x0020_Numbe />
+                        <input type="number" class=form-control name=Children_x0020_Check_x0020_Numbe value=0 />
                     </div>
                 </div>
                 <hr class=hr__ID>
@@ -578,13 +578,26 @@
                         <input type="text" class=form-control name=Sign_x002d_off_x0020_status /> 
                     </div>
                 </div>
+                <hr class=hr__ID>
+                <div class="row row__ID">
+                    <div class=col-md-3>
+                            Form Status
+                    </div>
+                    <div class=col-md-9>
+                        <select name=FormStatus class=form-control>
+                                <option></option>
+                                <option>Update</option>
+                                <option>Completion</option>
+                        </select> 
+                    </div>
+                </div>
                 <!---------------------------------------------------->
                 <!-- submit button part for all tsak forms------------>
                 <br>
                 <hr class=hr__ID>
                 <div class="row" id=completion__ID>
                     <div class=col>
-                        <label><input type="checkbox" value=Completion name=FormStatus /> Completion</label>
+                        <!--<label><input type="checkbox" value=Completion name=FormStatus /> Completion</label>-->
                         <!--
                         <p>Important: Submit with the above completion checked will notify a HR staff to start process this request and you will not be allowed to modify this form again.</p>
                         -->

@@ -8,7 +8,7 @@ $vm.m365_init=function(){
     };
     $vm.msalConfig={
         auth: {
-            clientId: '3bcb40c5-fec0-4b3b-ba67-f4d46d577f97',  //f39f8959-8cd7-4570-8c0f-548306bf899a
+            clientId: '3bcb40c5-fec0-4b3b-ba67-f4d46d577f97', 
         },
         cache: {
             cacheLocation: "localStorage",
