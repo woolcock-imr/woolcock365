@@ -63,6 +63,16 @@
             "sharepoint-list-column":           {url:"$H/s/sharepoint-list-column.html"},
             "sharepoint-list-item":             {url:"$H/s/sharepoint-list-item.html"},
             
+            
+            
+            "clinician-appointment-data":      {url:"$H/e/clinician-appointment-data.html",
+                                                 Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Clinician Appointment')",
+                                                 form_module:"clinician-appointment-form"
+                                                },
+            "clinician-appointment-form":	    {url:"$H/e/clinician-appointment-form.html",
+                                                 Table: "https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Clinician Appointment')",
+                                                },
+            
             "employee-appointment-c-data":      {url:"$H/e/employee-appointment-c-data.html",
                                                  Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Employee Appointment')",
                                                  form_module:"employee-appointment-c-form"
@@ -154,7 +164,7 @@
         $vm._id=1;
         //---------------------------------------------
         var apppath=window.location.href.substring(0, window.location.href.lastIndexOf('/')).split('\/?')[0];
-        console.log("start point  "+(new Date().getTime()-$vm.start_time)+'ms');
+        //console.log("start point  "+(new Date().getTime()-$vm.start_time)+'ms');
         $($vm.start_modules).each(function(index,url){
             var ver=localStorage.getItem(apppath+url+"ver");
             var txt=localStorage.getItem(apppath+url+"txt");

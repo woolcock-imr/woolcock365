@@ -1,4 +1,7 @@
 $vm.m365_init=function(){
+    var hosting_path0=window.location.href.split('#')[0];
+    var hosting_path=hosting_path0.substring(0, hosting_path0.split('?')[0].lastIndexOf('/'));
+
     $vm.m365_sharepoint_uri="https://woolcockmed.sharepoint.com";
     $vm.m365_scope_sharepoint={
         scopes: ["https://woolcockmed.sharepoint.com/.default"]
@@ -9,11 +12,12 @@ $vm.m365_init=function(){
     $vm.msalConfig={
         auth: {
             clientId: '3bcb40c5-fec0-4b3b-ba67-f4d46d577f97', 
+            redirectUri:hosting_path+"/microsoft-authentication.html"
         },
         cache: {
             cacheLocation: "localStorage",
             storeAuthStateInCookie: true
-        }
+        },
     };
     $vm.m365_msal=new Msal.UserAgentApplication($vm.msalConfig);
     $vm.m365_signin=function (){
@@ -61,12 +65,14 @@ $vm.m365_init=function(){
     };
     //------------------------------------
     if($vm.m365_msal.getAccount()!=undefined){
-        $vm.m365_msal.acquireTokenSilent($vm.m365_scope).then(function (tokenResponse) {
+        console.log(localStorage.getItem('msal.idtoken'))
+        $vm.m365_msal.acquireTokenSilent($vm.m365_scope_sharepoint).then(function (tokenResponse) {
             $vm.user_name_3rd=$vm.m365_msal.getAccount().userName;
             $vm.issuer_3rd="microsoft";
             if($vm.app_after_3rd_signin!=undefined) $vm.app_after_3rd_signin();
         }).catch(function (error){
-            console.log("more than 1 hour.");
+            //console.log(error);
+            console.log("more than 1 hour. need login again.");
         });
     }
     //------------------------------------
