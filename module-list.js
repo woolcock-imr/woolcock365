@@ -15,6 +15,14 @@
         "create-list-fields":               {url:"$H/a/create-list-fields.html",Table:"https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/"},
 
 
+        "incident-report-data":             {url:"$H/h/incident-report-data.html",
+                                                Table: "https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Incident Report')",
+                                                form_module:"incident-report-form",router:1
+                                            },
+        "incident-report-form":	                {url:"$H/h/incident-report-form.html",
+                                                Table: "https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('Incident Report')",
+                                            },
+
 
         "new-hire-data":                    {url:"$H/h/new-hire-data.html",
                                                 Table: "https://woolcockmed.sharepoint.com/sites/HRandEmployment/_api/web/lists/GetByTitle('New Hire')",
